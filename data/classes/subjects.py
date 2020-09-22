@@ -133,7 +133,7 @@ class Human(Animal):
     his_her = 'Its'
     salary = 5.25
     max_salary = 12
-    money = 100
+    money = 10
     step = 500
     mood = 70
     max_mood = 100
