@@ -1,7 +1,9 @@
 # UntilDie
 Welcome to my PyGame project!
+
 As you wish to try it, you have to open 'data/' folder and run main.py file.
-!! PYGAME module must be installed !!
+
+!!PYGAME module must be installed!!
 
 Rules:
 - Main rule is 'Work to eat, eat to survive'.
