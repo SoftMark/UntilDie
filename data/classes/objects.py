@@ -252,7 +252,7 @@ class Product:
         self.for_human = dict_for['human']
         self.for_dog = dict_for['dog']
         self.for_cat = dict_for['cat']
-        self.bitmap = pygame.image.load(img_file_name)
+        self.bitmap = pygame.image.load('images/products/' + img_file_name + '.png')
         self.area = AdditionalMethods.create_panel_area(self.bitmap.get_size())
         # Add bitmap to area
         self.area.blit(self.bitmap, (0, 0))

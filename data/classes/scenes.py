@@ -79,7 +79,7 @@ class WorldScene:
 
 class HomeScene:
     @classmethod
-    def action(cls, win, FPS, clock, player, clock_panel, add_objects):
+    def action(cls, win, FPS, clock, player, clock_panel):
         flat = Rooms.flat_room
         if player.get_in(flat, clock_panel):
             object_dict = flat.objects
@@ -156,7 +156,7 @@ class MallScene:
 
 class ProductsShopScene:
     @classmethod
-    def action(cls, win, FPS, clock, player, clock_panel, add_objects):
+    def action(cls, win, FPS, clock, player, clock_panel):
         best_goods_room = Rooms.products_shop_room
         if player.get_in(best_goods_room, clock_panel):
             bob = best_goods_room.objects['cashier']
@@ -268,7 +268,7 @@ class PetsShopScene:
 
 class WorkScene:
     @classmethod
-    def action(cls, win, FPS, clock, player, clock_panel, add_objects):
+    def action(cls, win, FPS, clock, player, clock_panel):
         office = Rooms.office
         if player.get_in(office, clock_panel):
             player.render(office.room_area)
@@ -292,7 +292,7 @@ class WorkScene:
                 AdditionalFunctions.hunger_damage(player, FPS)
                 # Отображаем модельки
                 office.draw_me()
-                MainMethods.render_objects(office.room_area, office_objects, add_objects)
+                MainMethods.render_objects(office.room_area, office_objects)
 
                 player.check_response(office_objects)
                 player.do_static_action(FPS, NamesStorage.work, work_desk)
@@ -326,7 +326,7 @@ class WorkScene:
 
 class ClubScene:
     @classmethod
-    def action(cls, win, FPS, clock, player, clock_panel, add_objects):
+    def action(cls, win, FPS, clock, player, clock_panel):
         club = Rooms.club_room
         if player.get_in(club, clock_panel):
             objects_dict = club.objects

@@ -10,28 +10,29 @@ import copy
 
 
 class Products:
-    bread = Product('bread', 70, 2.5, 'bakery', 'images/products/bread.png')
-    cake = Product('cake', 100, 5, 'bakery', 'images/products/cake.png')
-    pizza = Product('pizza', 80, 3.5, 'bakery', 'images/products/pizza.png')
-    fish = Product('fish', 30, 1.5, 'sea-food', 'images/products/fish.png')
-    octopus = Product('octopus', 130, 10, 'sea-food', 'images/products/octopus.png')
-    lobster = Product('lobster', 300, 20, 'sea-food', 'images/products/lobster.png')
-    chicken = Product('chicken', 100, 8, 'meat', 'images/products/chicken.png')
-    sausage = Product('sausage', 35, 2, 'meat', 'images/products/sausage.png')
-    steak = Product('steak', 180, 10, 'meat', 'images/products/steak.png')
-    carrot = Product('carrot', 20, 1, 'vegetable', 'images/products/carrot.png')
-    tomato = Product('tomato', 20, 1, 'vegetable', 'images/products/tomato.png')
-    apple = Product('apple', 20, 1, 'fruit', 'images/products/apple.png')
-    beer = Product('beer', 30, 2, 'alcohol-drink', 'images/products/beer.png')
-    cola = Product('cola', 35, 2, 'sweet-drink', 'images/products/cola.png')
-    milk = Product('milk', 50, 3, 'natural-drink', 'images/products/milk.png')
+
+    bread = Product('bread', 70, 2.5, 'bakery', 'bread')
+    cake = Product('cake', 100, 5, 'bakery', 'cake')
+    pizza = Product('pizza', 80, 3.5, 'bakery', 'pizza')
+    fish = Product('fish', 30, 1.5, 'sea-food', 'fish')
+    octopus = Product('octopus', 130, 10, 'sea-food', 'octopus')
+    lobster = Product('lobster', 300, 20, 'sea-food', 'lobster')
+    chicken = Product('chicken', 100, 8, 'meat', 'chicken')
+    sausage = Product('sausage', 35, 2, 'meat', 'sausage')
+    steak = Product('steak', 180, 10, 'meat', 'steak')
+    carrot = Product('carrot', 20, 1, 'vegetable', 'carrot')
+    tomato = Product('tomato', 20, 1, 'vegetable', 'tomato')
+    apple = Product('apple', 20, 1, 'fruit', 'apple')
+    beer = Product('beer', 30, 2, 'alcohol-drink', 'beer')
+    cola = Product('cola', 35, 2, 'sweet-drink', 'cola')
+    milk = Product('milk', 50, 3, 'natural-drink', 'milk')
     #water = Product('water', 10, 0.5, 'natural-drink')
     all_products = [bread, pizza, cake, fish, octopus, lobster, chicken, steak, sausage, carrot, tomato, apple, beer, cola, milk]
     # cocktails
-    mockito = Product('mockito', 50, 5, 'alcohol-drink', 'images/products/mockito.png')
-    long_island = Product('long_island', 50, 5, 'alcohol-drink', 'images/products/long_island.png')
-    whiskey = Product('whiskey', 50, 5, 'alcohol-drink', 'images/products/whiskey.png')
-    margarita = Product('margarita', 50, 5, 'alcohol-drink', 'images/products/margarita.png')
+    mockito = Product('mockito', 50, 5, 'alcohol-drink', 'mockito')
+    long_island = Product('long_island', 50, 5, 'alcohol-drink', 'long_island')
+    whiskey = Product('whiskey', 50, 5, 'alcohol-drink', 'whiskey')
+    margarita = Product('margarita', 50, 5, 'alcohol-drink', 'margarita')
     all_cocktails = [long_island, whiskey, mockito, margarita]
 
 

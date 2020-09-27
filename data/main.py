@@ -7,8 +7,6 @@ mike = Player.player
 mike.refrigerators_corner.append(Refrigerators.saturn)
 game_clock = Panels.clock_panel
 
-
-
 # Pygame
 pygame.init()
 # Игровое окно
@@ -24,23 +22,23 @@ while done:
     go = Scenes.world_scene.action(win, FPS, clock)
 
     if go == 'go home':
-        Scenes.home_scene.action(win, FPS, clock, mike, game_clock, [])
+        Scenes.home_scene.action(win, FPS, clock, mike, game_clock)
 
     elif go == 'go mall':
         while True:
             go = Scenes.mall_scene.action(win, FPS, clock)
             if go == 'go Best-goods':
-                Scenes.products_shop_scene.action(win, FPS, clock, mike, game_clock, [])
+                Scenes.products_shop_scene.action(win, FPS, clock, mike, game_clock)
             elif go == "go Susan's pets":
                 Scenes.pets_shop_scene.action(win, FPS, clock, mike, game_clock)
             elif go == 'go exit':
                 break
 
     elif go == 'go work':
-        Scenes.work_scene.action(win, FPS, clock, mike, game_clock, [])
+        Scenes.work_scene.action(win, FPS, clock, mike, game_clock)
 
     elif go == 'go club':
-        Scenes.club_scene.action(win, FPS, clock, mike, game_clock, [])
+        Scenes.club_scene.action(win, FPS, clock, mike, game_clock)
 
     pygame.display.update()
     clock.tick(FPS)
