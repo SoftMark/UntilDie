@@ -441,17 +441,17 @@ class Human(Animal):
             refrigerator.change_condition()
 
     def take_product(self, refrigerator):
-            if refrigerator.condition == NamesStorage.opened:
-                if AdditionalMethods.is_mouse_pos_in_area(refrigerator.area, refrigerator.get_position()):
-                    if not AdditionalFunctions.is_place_holder_empty(refrigerator):
-                        if self.have_i_free_hand():
-                            try:
-                                product = refrigerator.get_product()
-                                AdditionalFunctions.put_unit_to_place_holder(product, self.get_free_hand())
-                            except:
-                                pass
-                        else:
-                            self.voice.nuh.play()
+        if refrigerator.condition == NamesStorage.opened:
+            if AdditionalMethods.is_mouse_pos_in_area(refrigerator.area, refrigerator.get_position()):
+                if not AdditionalFunctions.is_place_holder_empty(refrigerator):
+                    if self.have_i_free_hand():
+                        try:
+                            product = refrigerator.get_product()
+                            AdditionalFunctions.put_unit_to_place_holder(product, self.get_free_hand())
+                        except:
+                            pass
+                    else:
+                        self.voice.nuh.play()
 
     # Food
 

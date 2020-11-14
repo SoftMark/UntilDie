@@ -61,55 +61,8 @@ else:
 #for i in range(0, len(masiv)):
 #    print(masiv[i])
 
+
 '''
-from OpenGL.GL import *
-from OpenGL.GLUT import *
-from OpenGL.GLU import *
-
-def draw_figure(shape, surface):
-	if shape == "Sphere":
-		draw_sphere(surface)
-	elif shape == "Teapot":
-		draw_teapot(surface)
-	else:
-		glBegin(GL_LINE_LOOP)
-		glVertex2f(2,2)
-		glVertex2f(-2,2)
-		glVertex2f(-2,-2)
-		glVertex2f(2,-2)
-		glEnd()
-
-def draw_sphere(surface):
-	if surface == "Solid":
-		glutSolidSphere(2,100,100)
-	elif surface == "Wire":
-		glutWireSphere(8,100,100)
-
-def draw_teapot(surface):
-	if surface == "Solid":
-		glutSolidTeapot(3)
-	elif surface == "Wire":
-		glutWireTeapot(3)
-
-def build_projection():
-	glOrtho(-5, 5, -5, 5, -5, 5)
-
-def draw_scene():
-	glColor3f(.8,.4,.1)
-	draw_figure("Teapot", "Wire")
-	glutSwapBuffers()
-
-glutInit()
-glutInitWindowSize(500, 500)
-glutInitWindowPosition(0, 0)
-glutCreateWindow("Lab1")
-
-build_projection()
-glutDisplayFunc(draw_scene)
-glutMainLoop()
-'''
-
-
 x = np.arange(0, 4 * np.pi, 0.01)
 sin = np.sin(x)
 plt.plot(x,sin)
@@ -118,3 +71,111 @@ plt.legend(['sin(x)'])
 plt.xlabel('X')
 plt.ylabel('Y')
 plt.show()
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+
+
+matrix = [
+ [1, -2, -1, -1],
+ [-1, 3, -1, -1],
+ [3, -8, 19, 11],
+ [2, -3, -2, 9]
+         ]
+
+print("Determinant of matrix is ~",np.linalg.det(matrix))
+
+'''
+
+spin = 0
+xrotate = 0
+yrotate = 0
+zrotate = 0
+
+nx, ny, nz = 0, 0, 0
+
+rx, ry, rz = 0, 0, 0
+srx, sry, srz = 0, 0, 0
+
+
+def draw_degree_point(r, degree, z):
+    x = r * math.cos(math.radians(degree))
+    y = r * math.sin(math.radians(degree))
+    # glNormal(x, y, z)
+    glVertex3f(x, y, z)
+
+
+def normal_point(r, degree, z):
+    x = r * math.cos(math.radians(degree))
+    y = r * math.sin(math.radians(degree))
+    return [x, y, z]
+
+
+def normal_wall(i):
+    # V1 = (C - A)
+    # V2 = (D - B)
+
+    # normal.x = V1.y * V2.z - V1.z * V2.y
+    # normal.y = V2.x * V1.z - V2.z * V1.x
+    # normal.z = V1.x * V2.y - V1.y * V2.x
+
+    normal_A = normal_point(3, i * 60, -3)  # A
+    normal_B = normal_point(3, (i + 1) * 60, -3)  # B
+    normal_C = normal_point(3, (i + 1) * 60, 3)  # C
+    normal_D = normal_point(3, i * 60, 3)  # D
+
+    V1 = [normal_C[0] - normal_A[0], normal_C[1] - normal_A[1], normal_C[2] - normal_A[2]]
+    V2 = [normal_D[0] - normal_B[0], normal_D[1] - normal_B[1], normal_D[2] - normal_B[2]]
+
+    normalx = V1[1] * V2[2] - V1[2] * V2[1]
+    normaly = V2[0] * V1[2] - V2[2] * V1[0]
+    normalz = V1[0] * V2[2] - V1[2] * V2[0]
+
+    normal = [normalx, normaly, normalz]
+    glNormal(*normal)
+    glVertex3f(*normal_A)
+    glVertex3f(*normal_B)
+    glVertex3f(*normal_C)
+    glVertex3f(*normal_D)
+
+
+def draw_figure():
+    glColor3f(.20, .0, .0)
+    # glNormal(0, 0, 1)
+    glBegin(
+        GL_POLYGON)  # GL_POINTS, GL_LINES, GL_LINE_STRIP, GL_LINE_LOOP, GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN, GL_QUADS, GL_QUAD_STRIP, GL_POLYGON
+    for i in range(6):
+        draw_degree_point(3, i * 60, 3)
+    glEnd()
+
+    for i in range(3):
+        # glColor3f(.0, .100, .0)
+        glBegin(GL_POLYGON)
+        normal_wall(i)
+        glEnd()
+
+    # glColor3f(.20, .20, .20)
+    glBegin(GL_POLYGON)
+    glNormal(0, 0, 1)
+    for i in range(6):
+        draw_degree_point(3, i * 60, -3)
+    glEnd()
+
+
