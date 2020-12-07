@@ -1,7 +1,7 @@
 import pygame
-from classes.units import Player, Refrigerators, Panels
-from classes.display import Display
-from classes.scenes import Scenes
+from ud_classes.units import Player, Refrigerators, Panels
+from ud_classes.display import Display
+from ud_classes.scenes import Scenes
 
 mike = Player.player
 mike.refrigerators_corner.append(Refrigerators.saturn)
