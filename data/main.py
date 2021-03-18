@@ -5,6 +5,7 @@ from ud_classes.scenes import Scenes
 
 mike = Player.player
 mike.refrigerators_corner.append(Refrigerators.saturn)
+mike.money = 500
 game_clock = Panels.clock_panel
 
 # Pygame
@@ -17,10 +18,8 @@ clock = pygame.time.Clock()
 # Главный цикл игры
 seconds = 0
 done = True
+go = 'go home'
 while done:
-
-    go = Scenes.world_scene.action(win, FPS, clock)
-
     if go == 'go home':
         Scenes.home_scene.action(win, FPS, clock, mike, game_clock)
 
@@ -39,6 +38,8 @@ while done:
 
     elif go == 'go club':
         Scenes.club_scene.action(win, FPS, clock, mike, game_clock)
+
+    go = Scenes.world_scene.action(win, FPS, clock)
 
     pygame.display.update()
     clock.tick(FPS)
