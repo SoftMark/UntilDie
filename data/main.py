@@ -3,6 +3,7 @@ from ud_classes.units import Player, Refrigerators, Panels
 from ud_classes.display import Display
 from ud_classes.scenes import Scenes
 
+
 mike = Player.player
 mike.refrigerators_corner.append(Refrigerators.saturn)
 mike.money = 500
