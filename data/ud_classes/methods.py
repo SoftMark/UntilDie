@@ -96,7 +96,7 @@ class AdditionalMethods:
     @classmethod
     def put_text_to_box(cls, panel, text, font_size, color):
         pygame.init()
-        text_space = pygame.font.Font('fonts/freesansbold.ttf', font_size)
+        text_space = pygame.font.Font('freesansbold.ttf', font_size)
         text_area = text_space.render(text, 1, color)
         panel.blit(text_area, ((panel.get_width() - text_area.get_width()) // 2,
                                (panel.get_height() - text_area.get_height()) // 2 + 1))
