@@ -349,9 +349,11 @@ class Human(Animal):
     def catch_money(self, dollar_gun):
         try:
             dollar = dollar_gun.current_dollar
-            if AdditionalMethods.is_mouse_pos_in_area(dollar.area, dollar.get_position()):
-                self.money += dollar.value
-                dollar_gun.drop_money()
+            mon_pos = dollar.get_position()
+            for _ in range(len(mon_pos[0])):
+                if AdditionalMethods.is_mouse_pos_in_area(dollar.area, (mon_pos[0][_], mon_pos[1][_])):
+                    self.money += dollar.value
+                    dollar_gun.drop_money(_)
         except:
             pass
 

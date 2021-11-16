@@ -464,10 +464,13 @@ class FloatingDollar():
         # Add bitmap to area
         self.area.blit(self.bitmap, (0, 0))
         self.area.set_colorkey(Colors.snow)
-        self.x = 0
-        self.y = 0
+        self.x = [0]
+        self.y = [0]
         self.life_time = 3
         self.value = None
+        self.count_money = 5
+        self.range_money = range(self.count_money)
+        self.mass_money = []
 
     def set_x(self, x):
         self.x = x
@@ -476,7 +479,11 @@ class FloatingDollar():
         self.y = y
 
     def render(self, screen):
-        screen.blit(self.area, (self.x, self.y))
+        self.mass_money = list(map(lambda x, y: screen.blit(self.area, (x, y)), self.x, self.y))
+
+    def del_money(self, count):
+        del self.x[count]
+        del self.y[count]
 
     def set_position(self, position):
         self.set_x(position[0])
@@ -487,11 +494,12 @@ class FloatingDollar():
         return position
 
     def generate_position(self):
-        self.set_x(random.randrange(0, Values.room_width - self.area.get_width()))
-        self.set_y(random.randrange(0, Values.room_height - self.area.get_height()))
+        self.count_money = random.randrange(1, 10)
+        self.set_x([random.randrange(0, Values.room_width - self.area.get_width()) for _ in self.range_money])
+        self.set_y([random.randrange(0, Values.room_height - self.area.get_height()) for _ in self.range_money])
 
     def generate_value(self):
-        self.value = random.randrange(1, 5)
+        self.value = random.randrange(1, 5) / self.count_money
 
     def generate(self):
         self.generate_position()
@@ -504,8 +512,8 @@ class DollarGun:
     show_cond = "show"
 
     def __init__(self):
-        self.dollar = FloatingDollar()
-        self.current_dollar = self.dollar
+        self.dollars = FloatingDollar()
+        self.current_dollar = self.dollars
         self.condition = self.sleep_cond
         self.sleep_time = 1
         self.secs = 0
@@ -523,7 +531,7 @@ class DollarGun:
             else:
                 self.secs = 0
                 self.condition = self.show_cond
-                self.current_dollar = self.dollar
+                self.current_dollar = self.dollars
                 self.current_dollar.generate()
             self.secs += 1 / FPS
         else:
@@ -534,11 +542,13 @@ class DollarGun:
                 self.generate_sleep_time()
                 del self.current_dollar
 
-    def drop_money(self):
-        self.dollar.sounds.dropping.play()
+    def drop_money(self, count):
+        self.dollars.sounds.dropping.play()
         self.generate_sleep_time()
-        self.condition = self.sleep_cond
-        del self.current_dollar
+        self.current_dollar.del_money(count)
+        if len(self.current_dollar.mass_money) <= 1:
+            del self.current_dollar
+            self.condition = self.sleep_cond
 
 
 
