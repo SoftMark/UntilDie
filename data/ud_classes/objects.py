@@ -464,6 +464,7 @@ class FloatingDollar():
         # Add bitmap to area
         self.area.blit(self.bitmap, (0, 0))
         self.area.set_colorkey(Colors.snow)
+<<<<<<< Updated upstream
         self.x = [0]
         self.y = [0]
         self.life_time = 3
@@ -471,6 +472,13 @@ class FloatingDollar():
         self.count_money = 5
         self.range_money = range(self.count_money)
         self.mass_money = []
+=======
+        self.x = 0
+        self.y = 0
+        self.life_time = random.randrange(1, 10)
+        self.value = None
+        self.alpha = 255
+>>>>>>> Stashed changes
 
     def set_x(self, x):
         self.x = x
@@ -493,6 +501,10 @@ class FloatingDollar():
         position = (self.x, self.y)
         return position
 
+    def invisible(self):
+        self.alpha -= self.life_time
+        self.area.set_alpha(self.alpha)
+
     def generate_position(self):
         self.count_money = random.randrange(1, 10)
         self.set_x([random.randrange(0, Values.room_width - self.area.get_width()) for _ in self.range_money])
@@ -504,7 +516,7 @@ class FloatingDollar():
     def generate(self):
         self.generate_position()
         self.generate_value()
-        self.area.set_alpha(255)
+        self.area.set_alpha(self.alpha)
 
 
 class DollarGun:
@@ -512,8 +524,13 @@ class DollarGun:
     show_cond = "show"
 
     def __init__(self):
+<<<<<<< Updated upstream
         self.dollars = FloatingDollar()
         self.current_dollar = self.dollars
+=======
+        self.dollars = list(FloatingDollar() for i in range(5))
+        self.current_dollars = self.dollars
+>>>>>>> Stashed changes
         self.condition = self.sleep_cond
         self.sleep_time = 1
         self.secs = 0
@@ -531,23 +548,44 @@ class DollarGun:
             else:
                 self.secs = 0
                 self.condition = self.show_cond
+<<<<<<< Updated upstream
                 self.current_dollar = self.dollars
                 self.current_dollar.generate()
+=======
+                self.dollars = list(FloatingDollar() for i in range(random.randrange(1, 10)))
+                self.current_dollars = self.dollars
+
+                for current_dollar in self.current_dollars:
+                    current_dollar.generate()
+>>>>>>> Stashed changes
             self.secs += 1 / FPS
         else:
-            self.current_dollar.render(screen)
-            self.current_dollar.area.set_alpha(self.current_dollar.area.get_alpha() - 3)
-            if self.current_dollar.area.get_alpha() <= 0:
+            count_delete = 0
+            for i in range(len(self.current_dollars)):
+                i -= count_delete
+                self.current_dollars[i].render(screen)
+                self.current_dollars[i].invisible()
+                if self.current_dollars[i].area.get_alpha() <= 0:
+                    count_delete += 1
+                    del self.current_dollars[i]
+            if not self.current_dollars:
                 self.condition = self.sleep_cond
                 self.generate_sleep_time()
-                del self.current_dollar
 
+<<<<<<< Updated upstream
     def drop_money(self, count):
         self.dollars.sounds.dropping.play()
         self.generate_sleep_time()
         self.current_dollar.del_money(count)
         if len(self.current_dollar.mass_money) <= 1:
             del self.current_dollar
+=======
+    def drop_money(self, number):
+        self.dollars[number].sounds.dropping.play()
+        del self.current_dollars[number]
+        if not self.current_dollars:
+            self.generate_sleep_time()
+>>>>>>> Stashed changes
             self.condition = self.sleep_cond
 
 
