@@ -7,6 +7,7 @@ from .sounds import MainSounds
 from .display import ChoicePanel, HPPanel, CashPanel
 from .objects import UnitStorage
 from .body_parts import Hand, Face
+from .key_set import *
 
 import random
 import pygame
@@ -212,15 +213,15 @@ class Human(Animal):
     def make_a_step(self, screen, FPS):
         self.area.fill(Colors.snow)
         legs_sprites = self.sprites.walk_legs
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_RIGHT] or keys[pygame.K_LEFT] or keys[pygame.K_UP] or keys[pygame.K_DOWN]:
-            if keys[pygame.K_RIGHT] and self.x < Values.room_width - Values.wall_width - self.bitmap.get_width() // 2:
+        keys = Actions(pygame.key.get_pressed())
+        if keys.right or keys.left or keys.down or keys.up:
+            if keys.right and self.x < Values.room_width - Values.wall_width - self.bitmap.get_width() // 2:
                 self.x += self.step
-            elif keys[pygame.K_LEFT] and self.x > Values.wall_width - self.bitmap.get_width() // 2:
+            elif keys.left and self.x > Values.wall_width - self.bitmap.get_width() // 2:
                 self.x -= self.step
-            elif keys[pygame.K_UP] and self.y > Values.room_height - Values.floor_height - self.bitmap.get_height() // 5 * 4:
+            elif keys.down and self.y > Values.room_height - Values.floor_height - self.bitmap.get_height() // 5 * 4:
                 self.y -= self.step
-            elif keys[pygame.K_DOWN] and self.y < Values.room_height - self.bitmap.get_height() - 20:
+            elif keys.up and self.y < Values.room_height - self.bitmap.get_height() - 20:
                 self.y += self.step
 
             if self.animation_counter + 1 >= FPS:
