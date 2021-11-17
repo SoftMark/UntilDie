@@ -529,9 +529,9 @@ class DollarGun:
         if len(self.current_dollars) <= 3:
             self.current_dollars.extend([FloatingDollar() for i in range(random.randrange(1, 5))])
         for current_dollar in self.current_dollars:
-            num = random.randrange(0, 100) <= 20
+            num = AdditionalFunctions.rand_bool(20)
             print(num)
-            if not num:
+            if num:
                 current_dollar.generate()
         for i in range(len(self.current_dollars)):
             i -= count_delete
