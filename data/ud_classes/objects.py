@@ -466,8 +466,9 @@ class FloatingDollar():
         self.area.set_colorkey(Colors.snow)
         self.x = 0
         self.y = 0
-        self.life_time = 3
+        self.life_damage = random.randrange(1, 5)
         self.value = None
+        self.alpha = 255
 
     def set_x(self, x):
         self.x = x
@@ -476,7 +477,8 @@ class FloatingDollar():
         self.y = y
 
     def render(self, screen):
-        screen.blit(self.area, (self.x, self.y))
+        if self.x != 0 and self.y != 0:
+            screen.blit(self.area, (self.x, self.y))
 
     def set_position(self, position):
         self.set_x(position[0])
@@ -486,6 +488,11 @@ class FloatingDollar():
         position = (self.x, self.y)
         return position
 
+    def invisible(self):
+        if self.x != 0 and self.y != 0:
+            self.alpha -= self.life_damage
+        self.area.set_alpha(self.alpha)
+
     def generate_position(self):
         self.set_x(random.randrange(0, Values.room_width - self.area.get_width()))
         self.set_y(random.randrange(0, Values.room_height - self.area.get_height()))
@@ -494,9 +501,10 @@ class FloatingDollar():
         self.value = random.randrange(1, 5)
 
     def generate(self):
-        self.generate_position()
-        self.generate_value()
-        self.area.set_alpha(255)
+        if self.x == 0 and self.y == 0:
+            self.generate_position()
+            self.generate_value()
+            self.area.set_alpha(self.alpha)
 
 
 class DollarGun:
@@ -504,9 +512,9 @@ class DollarGun:
     show_cond = "show"
 
     def __init__(self):
-        self.dollar = FloatingDollar()
-        self.current_dollar = self.dollar
-        self.condition = self.sleep_cond
+        self.dollars = list(FloatingDollar() for i in range(random.randrange(1, 5)))
+        self.current_dollars = self.dollars
+        self.condition = self.show_cond
         self.sleep_time = 1
         self.secs = 0
 
@@ -517,37 +525,29 @@ class DollarGun:
         pass
 
     def run(self, screen, FPS):
-        if self.condition == self.sleep_cond:
-            if self.secs <= self.sleep_time:
-                self.sleep()
-            else:
-                self.secs = 0
-                self.condition = self.show_cond
-                self.current_dollar = self.dollar
-                self.current_dollar.generate()
-            self.secs += 1 / FPS
-        else:
-            self.current_dollar.render(screen)
-            self.current_dollar.area.set_alpha(self.current_dollar.area.get_alpha() - 3)
-            if self.current_dollar.area.get_alpha() <= 0:
-                self.condition = self.sleep_cond
-                self.generate_sleep_time()
-                del self.current_dollar
+        count_delete = 0
+        if len(self.current_dollars) <= 3:
+            self.current_dollars.extend([FloatingDollar() for i in range(random.randrange(1, 5))])
+        for current_dollar in self.current_dollars:
+            num = random.randrange(0, 100) <= 20
+            print(num)
+            if not num:
+                current_dollar.generate()
+        for i in range(len(self.current_dollars)):
+            i -= count_delete
+            self.current_dollars[i].render(screen)
+            self.current_dollars[i].invisible()
+            if self.current_dollars[i].area.get_alpha() <= 0:
+                count_delete += 1
+                del self.current_dollars[i]
+        # if not self.current_dollars:
+        #     self.condition = self.sleep_cond
+        #     self.generate_sleep_time()
 
-    def drop_money(self):
-        self.dollar.sounds.dropping.play()
-        self.generate_sleep_time()
-        self.condition = self.sleep_cond
-        del self.current_dollar
-
-
-
-
-
-
-
-
-
-
-
+    def drop_money(self, number):
+        self.dollars[number].sounds.dropping.play()
+        del self.current_dollars[number]
+        if not self.current_dollars:
+            self.generate_sleep_time()
+            # self.condition = self.sleep_cond
 
