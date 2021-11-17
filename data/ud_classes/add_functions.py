@@ -3,6 +3,7 @@ from .values import Values
 from .rgb import Colors
 from .sprites import RipSprite
 from .sounds import MainSounds
+import random
 
 
 class AdditionalFunctions:
@@ -42,6 +43,16 @@ class AdditionalFunctions:
             unit.top_panel.change_text('Bury')
             unit.step = 0
             #MainSounds.rip_bell.play()
+
+    @classmethod
+    def rand_bool(cls, percentege=50):
+        if int(percentege) == percentege:
+            floating_count = 0
+        else:
+            floating_count = len(str(percentege).split(".")[-1])
+        print(floating_count)
+            
+        return random.randrange(1, 100 * 10 ** floating_count) <= percentege * 10 ** floating_count
 
     @classmethod
     def put_unit_to_place_holder(cls, unit, place_holder):
