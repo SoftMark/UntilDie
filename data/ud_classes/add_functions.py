@@ -50,7 +50,6 @@ class AdditionalFunctions:
             floating_count = 0
         else:
             floating_count = len(str(percentege).split(".")[-1])
-        print(floating_count)
             
         return random.randrange(1, 100 * 10 ** floating_count) <= percentege * 10 ** floating_count
 
