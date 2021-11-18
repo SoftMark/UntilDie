@@ -455,7 +455,7 @@ class Window:
             self.bitmap = self.night_sprite
 
 
-class FloatingDollar():
+class FloatingCoin():
     sounds = MoneySounds()
 
     def __init__(self):
@@ -501,20 +501,23 @@ class FloatingDollar():
         self.value = random.randrange(1, 5)
 
     def generate(self):
-        if self.x == 0 and self.y == 0:
+        bool_have_pos = self.x == 0 and self.y == 0
+
+        if bool_have_pos:
             self.generate_position()
             self.generate_value()
             self.area.set_alpha(self.alpha)
+        
+        return 1 if bool_have_pos else 0
 
 
 class DollarGun:
-    sleep_cond = "sleep"
-    show_cond = "show"
+    MAX_COINS = 5
 
     def __init__(self):
-        self.dollars = list(FloatingDollar() for i in range(random.randrange(1, 5)))
-        self.current_dollars = self.dollars
-        self.condition = self.show_cond
+        self.coins = [FloatingCoin() for i in range(random.randrange(1, self.MAX_COINS))]
+        self.coins_active = 0
+        self.current_dollars = self.coins
         self.sleep_time = 1
         self.secs = 0
 
@@ -525,29 +528,27 @@ class DollarGun:
         pass
 
     def run(self, screen, FPS):
-        count_delete = 0
         if len(self.current_dollars) <= 3:
-            self.current_dollars.extend([FloatingDollar() for i in range(random.randrange(1, 5))])
+            self.coins.extend([FloatingCoin() for i in range(random.randrange(1, self.MAX_COINS))])
+
         for current_dollar in self.current_dollars:
-            num = AdditionalFunctions.rand_bool(20)
-            print(num)
-            if num:
-                current_dollar.generate()
+            if AdditionalFunctions.rand_bool(0.2) and self.coins_active < self.MAX_COINS:
+                self.coins_active += current_dollar.generate()
+
+        count_delete = 0
         for i in range(len(self.current_dollars)):
             i -= count_delete
             self.current_dollars[i].render(screen)
             self.current_dollars[i].invisible()
             if self.current_dollars[i].area.get_alpha() <= 0:
                 count_delete += 1
+                self.coins_active -= 1
                 del self.current_dollars[i]
-        # if not self.current_dollars:
-        #     self.condition = self.sleep_cond
-        #     self.generate_sleep_time()
 
     def drop_money(self, number):
-        self.dollars[number].sounds.dropping.play()
+        self.coins[number].sounds.dropping.play()
+        self.coins_active -= 1
         del self.current_dollars[number]
         if not self.current_dollars:
             self.generate_sleep_time()
-            # self.condition = self.sleep_cond
 
