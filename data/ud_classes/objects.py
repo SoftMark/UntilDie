@@ -516,9 +516,8 @@ class DollarGun:
     MAX_COINS = 5
 
     def __init__(self):
-        self.coins = [FloatingCoin() for i in range(random.randrange(1, self.MAX_COINS))]
         self.coins_active = 0
-        self.current_dollars = self.coins
+        self.current_dollars = [FloatingCoin() for i in range(random.randrange(1, self.MAX_COINS))]
         self.sleep_time = 1
         self.secs = 0
 
@@ -530,7 +529,7 @@ class DollarGun:
 
     def run(self, screen, FPS):
         if len(self.current_dollars) <= 3:
-            self.coins.extend([FloatingCoin() for i in range(random.randrange(1, self.MAX_COINS))])
+            self.current_dollars.extend([FloatingCoin() for i in range(random.randrange(1, self.MAX_COINS))])
 
         for current_dollar in self.current_dollars:
             if AdditionalFunctions.rand_bool(0.2) and self.coins_active < self.MAX_COINS:
@@ -547,7 +546,7 @@ class DollarGun:
                 del self.current_dollars[i]
 
     def drop_money(self, number):
-        self.coins[number].sounds.dropping.play()
+        self.current_dollars[number].sounds.dropping.play()
         self.coins_active -= 1
         del self.current_dollars[number]
         if not self.current_dollars:
