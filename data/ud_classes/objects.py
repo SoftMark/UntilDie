@@ -467,6 +467,7 @@ class FloatingCoin():
         self.x = 0
         self.y = 0
         self.life_damage = random.randrange(1, 5)
+        self.is_active = False
         self.value = None
         self.alpha = 255
 
@@ -477,7 +478,7 @@ class FloatingCoin():
         self.y = y
 
     def render(self, screen):
-        if self.x != 0 and self.y != 0:
+        if self.is_active:
             screen.blit(self.area, (self.x, self.y))
 
     def set_position(self, position):
@@ -489,7 +490,7 @@ class FloatingCoin():
         return position
 
     def invisible(self):
-        if self.x != 0 and self.y != 0:
+        if self.is_active:
             self.alpha -= self.life_damage
         self.area.set_alpha(self.alpha)
 
@@ -501,14 +502,14 @@ class FloatingCoin():
         self.value = random.randrange(1, 5)
 
     def generate(self):
-        bool_have_pos = self.x == 0 and self.y == 0
-
-        if bool_have_pos:
+        if not self.is_active:
+            self.is_active = True
             self.generate_position()
             self.generate_value()
             self.area.set_alpha(self.alpha)
+            return 1
         
-        return 1 if bool_have_pos else 0
+        return 0
 
 
 class DollarGun:
